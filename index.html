@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Pink Cosmetics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Poppins font -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+
+  <!-- Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
   <style>
     * {
       box-sizing: border-box;
@@ -44,35 +43,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .brand-dot {
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       border-radius: 999px;
       background: linear-gradient(135deg, #ffb3c6, #e34b87);
       box-shadow: 0 8px 20px rgba(227, 75, 135, 0.4);
-    }
-
-    .brand-text {
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: 0.03em;
-    }
-
-    .brand-sub {
-      display: block;
-      font-size: 11px;
-      font-weight: 400;
-      opacity: 0.7;
-      margin-top: 2px;
     }
 
     .cart-icon-wrapper {
@@ -80,11 +59,11 @@
       border: none;
       background: #ffffff;
       border-radius: 999px;
-      padding: 8px 12px;
+      padding: 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 24px rgba(227, 75, 135, 0.18);
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(227, 75, 135, 0.2);
       cursor: pointer;
     }
 
@@ -93,14 +72,7 @@
     }
 
     .cart-icon {
-      font-size: 18px;
-    }
-
-    .cart-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      letter-spacing: 0.06em;
+      font-size: 20px;
     }
 
     .cart-count {
@@ -121,32 +93,12 @@
       box-shadow: 0 6px 16px rgba(227, 75, 135, 0.6);
     }
 
-    /* Titles */
-
-    .page-title {
-      font-size: 22px;
-      font-weight: 600;
-      margin: 2px 0 4px;
-    }
-
-    .subtitle {
-      font-size: 13px;
-      opacity: 0.7;
-      margin-bottom: 18px;
-    }
-
     /* Products grid */
 
     .products-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-    }
-
-    @media (min-width: 600px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
     }
 
     .product-card {
@@ -173,24 +125,16 @@
     }
 
     @keyframes cardBounce {
-      0% {
-        transform: translateY(0);
-      }
-      30% {
-        transform: translateY(-8px) scale(1.02);
-      }
-      60% {
-        transform: translateY(2px);
-      }
-      100% {
-        transform: translateY(0);
-      }
+      0% { transform: translateY(0); }
+      30% { transform: translateY(-8px) scale(1.02); }
+      60% { transform: translateY(2px); }
+      100% { transform: translateY(0); }
     }
 
     .image-wrapper {
       position: relative;
       width: 100%;
-      padding-top: 100%;
+      padding-top: 100%; /* square */
       border-radius: 16px;
       overflow: hidden;
       background: #f9f1f7;
@@ -206,33 +150,8 @@
 
     .card-footer {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      justify-content: flex-end;
       padding: 2px 2px 4px;
-      gap: 6px;
-    }
-
-    .product-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .product-name {
-      font-size: 12px;
-      font-weight: 500;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-
-    .product-tagline {
-      font-size: 10px;
-      opacity: 0.6;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
 
     .select-btn {
@@ -276,7 +195,7 @@
       border-color: #ffffff;
     }
 
-    /* Flying image animation */
+    /* Flying image */
 
     .flying-img {
       position: fixed;
@@ -354,215 +273,131 @@
 <body>
   <div class="app">
     <header class="top-bar">
-      <div class="brand">
-        <div class="brand-dot"></div>
-        <div>
-          <span class="brand-text">Pink Rituals</span>
-          <span class="brand-sub">Glow-up essentials</span>
-        </div>
-      </div>
+      <div class="brand-dot"></div>
 
-      <button
-        class="cart-icon-wrapper"
-        id="cart-button"
-        aria-label="Відкрити корзину"
-      >
+      <button class="cart-icon-wrapper" id="cart-button" aria-label="Open cart">
         <span class="cart-icon">🛍️</span>
-        <span class="cart-label">bag</span>
         <span class="cart-count" id="cart-count">0</span>
       </button>
     </header>
 
     <main>
-      <h1 class="page-title">Pick your essentials</h1>
-      <p class="subtitle">Тапни на галочку, і продукт полетить у рожеву корзину ✨</p>
-
       <section class="products-grid">
         <!-- 1 -->
-        <article class="product-card" data-name="Rose Cloud Serum">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/4RKhTmwp/5bf31fb9dd6d0df1ba45dbdc3acf1d39.jpg"
-              alt="Rose Cloud Serum"
-            />
+            <img src="https://i.ibb.co/4RKhTmwp/5bf31fb9dd6d0df1ba45dbdc3acf1d39.jpg" alt="Product 1"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Rose Cloud Serum</div>
-              <div class="product-tagline">Morning dewy glow</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Rose Cloud Serum">
+            <button class="select-btn" aria-label="Select product 1">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 2 -->
-        <article class="product-card" data-name="Blush Velvet Cream">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/GfMNVtMw/7be4ab78e1f07267449b75bd122f568e.jpg"
-              alt="Blush Velvet Cream"
-            />
+            <img src="https://i.ibb.co/GfMNVtMw/7be4ab78e1f07267449b75bd122f568e.jpg" alt="Product 2"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Blush Velvet Cream</div>
-              <div class="product-tagline">Soft cheeks, soft mood</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Blush Velvet Cream">
+            <button class="select-btn" aria-label="Select product 2">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 3 -->
-        <article class="product-card" data-name="Silky Skin Essence">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/LXKYfg3X/661f7fcdc29d469af75811c3557605ba.jpg"
-              alt="Silky Skin Essence"
-            />
+            <img src="https://i.ibb.co/LXKYfg3X/661f7fcdc29d469af75811c3557605ba.jpg" alt="Product 3"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Silky Skin Essence</div>
-              <div class="product-tagline">Lightweight daily boost</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Silky Skin Essence">
+            <button class="select-btn" aria-label="Select product 3">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 4 -->
-        <article class="product-card" data-name="Cloudy Mist Toner">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/WvyZMh83/937b44eebaee3196be4929779cbc00b2.jpg"
-              alt="Cloudy Mist Toner"
-            />
+            <img src="https://i.ibb.co/WvyZMh83/937b44eebaee3196be4929779cbc00b2.jpg" alt="Product 4"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Cloudy Mist Toner</div>
-              <div class="product-tagline">For dreamy calm skin</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Cloudy Mist Toner">
+            <button class="select-btn" aria-label="Select product 4">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 5 -->
-        <article class="product-card" data-name="Sugar Petal Scrub">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/TMSqgSfx/4435d86e41f846ffb264af8106d39ad6.jpg"
-              alt="Sugar Petal Scrub"
-            />
+            <img src="https://i.ibb.co/TMSqgSfx/4435d86e41f846ffb264af8106d39ad6.jpg" alt="Product 5"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Sugar Petal Scrub</div>
-              <div class="product-tagline">Weekly reset ritual</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Sugar Petal Scrub">
+            <button class="select-btn" aria-label="Select product 5">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 6 -->
-        <article class="product-card" data-name="Glow Shot Ampoule">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/svVXRfTh/671982808c5377bc4de3590d0a620bfd.jpg"
-              alt="Glow Shot Ampoule"
-            />
+            <img src="https://i.ibb.co/svVXRfTh/671982808c5377bc4de3590d0a620bfd.jpg" alt="Product 6"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Glow Shot Ampoule</div>
-              <div class="product-tagline">Instant radiance dose</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Glow Shot Ampoule">
+            <button class="select-btn" aria-label="Select product 6">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 7 -->
-        <article class="product-card" data-name="Petal Dream Cream">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/HLJYNWqg/a9f8ac6951dcbc60b5da2df995e4f600.jpg"
-              alt="Petal Dream Cream"
-            />
+            <img src="https://i.ibb.co/HLJYNWqg/a9f8ac6951dcbc60b5da2df995e4f600.jpg" alt="Product 7"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Petal Dream Cream</div>
-              <div class="product-tagline">Nighttime hug for skin</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Petal Dream Cream">
+            <button class="select-btn" aria-label="Select product 7">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 8 -->
-        <article class="product-card" data-name="Candlelight Elixir">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/5gX3mxwb/ad47dc3f9bbfd70b150cea135580fbf1.jpg"
-              alt="Candlelight Elixir"
-            />
+            <img src="https://i.ibb.co/5gX3mxwb/ad47dc3f9bbfd70b150cea135580fbf1.jpg" alt="Product 8"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Candlelight Elixir</div>
-              <div class="product-tagline">Soft-focus finish</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Candlelight Elixir">
+            <button class="select-btn" aria-label="Select product 8">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 9 -->
-        <article class="product-card" data-name="Peachy Aura Oil">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/QFfqGmbf/bc105e647e94d87a67ae2af6916f7b26.jpg"
-              alt="Peachy Aura Oil"
-            />
+            <img src="https://i.ibb.co/QFfqGmbf/bc105e647e94d87a67ae2af6916f7b26.jpg" alt="Product 9"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Peachy Aura Oil</div>
-              <div class="product-tagline">Glow with zero stickiness</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Peachy Aura Oil">
+            <button class="select-btn" aria-label="Select product 9">
               <div class="checkmark-icon"></div>
             </button>
           </div>
         </article>
 
         <!-- 10 -->
-        <article class="product-card" data-name="Cotton Candy Cleanser">
+        <article class="product-card">
           <div class="image-wrapper">
-            <img
-              src="https://i.ibb.co/pjV48VMP/de34492085d8e21cc8e41ab4488e206d.jpg"
-              alt="Cotton Candy Cleanser"
-            />
+            <img src="https://i.ibb.co/pjV48VMP/de34492085d8e21cc8e41ab4488e206d.jpg" alt="Product 10"/>
           </div>
           <div class="card-footer">
-            <div class="product-info">
-              <div class="product-name">Cotton Candy Cleanser</div>
-              <div class="product-tagline">Fluffy daily cleanse</div>
-            </div>
-            <button class="select-btn" aria-label="Додати Cotton Candy Cleanser">
+            <button class="select-btn" aria-label="Select product 10">
               <div class="checkmark-icon"></div>
             </button>
           </div>
@@ -571,7 +406,7 @@
     </main>
 
     <!-- Fixed CTA button -->
-    <button class="cta-btn" id="get-insides-btn">
+    <button class="cta-btn" id="get-insights-btn">
       <span class="sparkle">✨</span>
       Get insights
     </button>
@@ -585,7 +420,7 @@
       const productCards = document.querySelectorAll(".product-card");
       const cartCountEl = document.getElementById("cart-count");
       const cartButton = document.getElementById("cart-button");
-      const getInsidesBtn = document.getElementById("get-insides-btn");
+      const getInsightsBtn = document.getElementById("get-insights-btn");
       const confettiCanvas = document.getElementById("confetti-canvas");
       const ctx = confettiCanvas.getContext("2d");
 
@@ -598,7 +433,6 @@
       productCards.forEach((card) => {
         const selectBtn = card.querySelector(".select-btn");
 
-        // Натискання на картку теж працює
         card.addEventListener("click", (e) => {
           if (e.target.closest(".select-btn")) return;
           addToCart(card);
@@ -622,7 +456,7 @@
 
       function triggerBounce(card) {
         card.classList.remove("bounce");
-        void card.offsetWidth; // перезапустити анімацію
+        void card.offsetWidth; // restart animation
         card.classList.add("bounce");
       }
 
@@ -644,12 +478,10 @@
         document.body.appendChild(flyingImg);
 
         const deltaX =
-          cartRect.left +
-          cartRect.width / 2 -
+          cartRect.left + cartRect.width / 2 -
           (imgRect.left + imgRect.width / 2);
         const deltaY =
-          cartRect.top +
-          cartRect.height / 2 -
+          cartRect.top + cartRect.height / 2 -
           (imgRect.top + imgRect.height / 2);
 
         requestAnimationFrame(() => {
@@ -710,12 +542,7 @@
 
         function update(time) {
           const elapsed = time - startTime;
-          ctx.clearRect(
-            0,
-            0,
-            confettiCanvas.width,
-            confettiCanvas.height
-          );
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
 
           confettiPieces.forEach((p) => {
             p.y += p.speedY;
@@ -739,19 +566,14 @@
           if (elapsed < duration) {
             confettiAnimationId = requestAnimationFrame(update);
           } else {
-            ctx.clearRect(
-              0,
-              0,
-              confettiCanvas.width,
-              confettiCanvas.height
-            );
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
           }
         }
 
         confettiAnimationId = requestAnimationFrame(update);
       }
 
-      getInsidesBtn.addEventListener("click", () => {
+      getInsightsBtn.addEventListener("click", () => {
         startConfetti();
       });
     });
