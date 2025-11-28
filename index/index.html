@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pink Cosmetics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: #fdecf4;
+      color: #2b2b2b;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      min-height: 100vh;
+      max-width: 480px;
+      width: 100%;
+      padding: 16px 16px 90px;
+      position: relative;
+    }
+
+    /* Top bar */
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .brand-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffb3c6, #e34b87);
+      box-shadow: 0 8px 20px rgba(227, 75, 135, 0.4);
+    }
+
+    .cart-icon-wrapper {
+      position: relative;
+      border: none;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(227, 75, 135, 0.2);
+      cursor: pointer;
+    }
+
+    .cart-icon-wrapper:active {
+      transform: scale(0.96);
+    }
+
+    .cart-icon {
+      font-size: 20px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: #e34b87;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(227, 75, 135, 0.6);
+    }
+
+    /* Products grid */
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(255, 140, 180, 0.18);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .product-card.selected {
+      box-shadow:
+        0 0 0 2px rgba(227, 75, 135, 0.7),
+        0 16px 36px rgba(227, 75, 135, 0.25);
+    }
+
+    .product-card.bounce {
+      animation: cardBounce 0.38s ease-out;
+    }
+
+    @keyframes cardBounce {
+      0% { transform: translateY(0); }
+      30% { transform: translateY(-8px) scale(1.02); }
+      60% { transform: translateY(2px); }
+      100% { transform: translateY(0); }
+    }
+
+    .image-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* square */
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f9f1f7;
+    }
+
+    .image-wrapper img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 2px 2px 4px;
+    }
+
+    .select-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2px solid #f3aacb;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      outline: none;
+      flex-shrink: 0;
+      transition: background 0.18s ease, border-color 0.18s ease,
+        transform 0.1s ease, box-shadow 0.18s ease;
+      box-shadow: 0 4px 10px rgba(255, 140, 180, 0.25);
+    }
+
+    .select-btn:active {
+      transform: scale(0.9);
+    }
+
+    .checkmark-icon {
+      width: 12px;
+      height: 12px;
+      border-bottom: 2px solid transparent;
+      border-right: 2px solid transparent;
+      transform: rotate(45deg);
+      transition: border-color 0.18s ease;
+    }
+
+    .product-card.selected .select-btn {
+      background: #e34b87;
+      border-color: #e34b87;
+      box-shadow: 0 6px 16px rgba(227, 75, 135, 0.7);
+    }
+
+    .product-card.selected .checkmark-icon {
+      border-color: #ffffff;
+    }
+
+    /* Flying image */
+
+    .flying-img {
+      position: fixed;
+      border-radius: 18px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 200;
+      transition: transform 0.6s cubic-bezier(0.16, 0.84, 0.44, 1),
+        opacity 0.6s ease;
+      box-shadow: 0 12px 30px rgba(227, 75, 135, 0.3);
+    }
+
+    /* CTA button */
+
+    .cta-btn {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 18px;
+      width: min(420px, calc(100% - 32px));
+      border-radius: 999px;
+      border: none;
+      background: #e34b87;
+      color: #ffffff;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow:
+        0 14px 34px rgba(227, 75, 135, 0.7),
+        0 0 0 0 rgba(255, 255, 255, 0.5);
+      animation: ctaGlow 2.4s ease-in-out infinite alternate;
+      cursor: pointer;
+      z-index: 150;
+    }
+
+    .cta-btn span.sparkle {
+      font-size: 18px;
+    }
+
+    .cta-btn:active {
+      transform: translateX(-50%) scale(0.97);
+    }
+
+    @keyframes ctaGlow {
+      0% {
+        box-shadow:
+          0 12px 30px rgba(227, 75, 135, 0.6),
+          0 0 0 0 rgba(255, 255, 255, 0.5);
+      }
+      100% {
+        box-shadow:
+          0 18px 40px rgba(227, 75, 135, 0.9),
+          0 0 0 10px rgba(255, 255, 255, 0);
+      }
+    }
+
+    /* Confetti canvas */
+
+    #confetti-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 140;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="top-bar">
+      <div class="brand-dot"></div>
+
+      <button class="cart-icon-wrapper" id="cart-button" aria-label="Open cart">
+        <span class="cart-icon">🛍️</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="products-grid">
+        <!-- 1 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/4RKhTmwp/5bf31fb9dd6d0df1ba45dbdc3acf1d39.jpg" alt="Product 1"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 1">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/GfMNVtMw/7be4ab78e1f07267449b75bd122f568e.jpg" alt="Product 2"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 2">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/LXKYfg3X/661f7fcdc29d469af75811c3557605ba.jpg" alt="Product 3"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 3">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/WvyZMh83/937b44eebaee3196be4929779cbc00b2.jpg" alt="Product 4"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 4">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/TMSqgSfx/4435d86e41f846ffb264af8106d39ad6.jpg" alt="Product 5"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 5">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/svVXRfTh/671982808c5377bc4de3590d0a620bfd.jpg" alt="Product 6"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 6">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/HLJYNWqg/a9f8ac6951dcbc60b5da2df995e4f600.jpg" alt="Product 7"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 7">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/5gX3mxwb/ad47dc3f9bbfd70b150cea135580fbf1.jpg" alt="Product 8"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 8">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 9 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/QFfqGmbf/bc105e647e94d87a67ae2af6916f7b26.jpg" alt="Product 9"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 9">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="product-card">
+          <div class="image-wrapper">
+            <img src="https://i.ibb.co/pjV48VMP/de34492085d8e21cc8e41ab4488e206d.jpg" alt="Product 10"/>
+          </div>
+          <div class="card-footer">
+            <button class="select-btn" aria-label="Select product 10">
+              <div class="checkmark-icon"></div>
+            </button>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- Fixed CTA button -->
+    <button class="cta-btn" id="get-insights-btn">
+      <span class="sparkle">✨</span>
+      Get insights
+    </button>
+
+    <!-- Confetti canvas -->
+    <canvas id="confetti-canvas"></canvas>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const productCards = document.querySelectorAll(".product-card");
+      const cartCountEl = document.getElementById("cart-count");
+      const cartButton = document.getElementById("cart-button");
+      const getInsightsBtn = document.getElementById("get-insights-btn");
+      const confettiCanvas = document.getElementById("confetti-canvas");
+      const ctx = confettiCanvas.getContext("2d");
+
+      let cartCount = 0;
+      let confettiPieces = [];
+      let confettiAnimationId = null;
+
+      /* ---------- CART & PRODUCT SELECTION ---------- */
+
+      productCards.forEach((card) => {
+        const selectBtn = card.querySelector(".select-btn");
+
+        card.addEventListener("click", (e) => {
+          if (e.target.closest(".select-btn")) return;
+          addToCart(card);
+        });
+
+        selectBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          addToCart(card);
+        });
+      });
+
+      function addToCart(card) {
+        card.classList.add("selected");
+        triggerBounce(card);
+        const img = card.querySelector("img");
+        animateToCart(img);
+
+        cartCount++;
+        cartCountEl.textContent = cartCount;
+      }
+
+      function triggerBounce(card) {
+        card.classList.remove("bounce");
+        void card.offsetWidth; // restart animation
+        card.classList.add("bounce");
+      }
+
+      function animateToCart(imageEl) {
+        if (!imageEl || !cartButton) return;
+
+        const imgRect = imageEl.getBoundingClientRect();
+        const cartRect = cartButton.getBoundingClientRect();
+
+        const flyingImg = imageEl.cloneNode(true);
+        flyingImg.classList.add("flying-img");
+        flyingImg.style.left = imgRect.left + "px";
+        flyingImg.style.top = imgRect.top + "px";
+        flyingImg.style.width = imgRect.width + "px";
+        flyingImg.style.height = imgRect.height + "px";
+        flyingImg.style.transform = "translate(0, 0) scale(1)";
+        flyingImg.style.opacity = "1";
+
+        document.body.appendChild(flyingImg);
+
+        const deltaX =
+          cartRect.left + cartRect.width / 2 -
+          (imgRect.left + imgRect.width / 2);
+        const deltaY =
+          cartRect.top + cartRect.height / 2 -
+          (imgRect.top + imgRect.height / 2);
+
+        requestAnimationFrame(() => {
+          flyingImg.style.transform =
+            "translate(" + deltaX + "px, " + deltaY + "px) scale(0.2)";
+          flyingImg.style.opacity = "0.2";
+        });
+
+        setTimeout(() => {
+          flyingImg.remove();
+        }, 650);
+      }
+
+      /* ---------- CONFETTI ---------- */
+
+      function resizeCanvas() {
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+      }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+
+      function createConfettiPieces(count) {
+        const colors = [
+          "#FFB3C6",
+          "#FFDAC1",
+          "#B5EAD7",
+          "#C7CEEA",
+          "#FFD6FF",
+          "#E34B87",
+        ];
+        const pieces = [];
+
+        for (let i = 0; i < count; i++) {
+          pieces.push({
+            x: Math.random() * confettiCanvas.width,
+            y: Math.random() * -confettiCanvas.height,
+            size: 5 + Math.random() * 6,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speedY: 2 + Math.random() * 3,
+            speedX: -1 + Math.random() * 2,
+            rotation: Math.random() * 360,
+            rotationSpeed: -5 + Math.random() * 10,
+            opacity: 0.7 + Math.random() * 0.3,
+          });
+        }
+        return pieces;
+      }
+
+      function startConfetti(duration = 2500) {
+        if (confettiAnimationId) {
+          cancelAnimationFrame(confettiAnimationId);
+        }
+
+        confettiPieces = createConfettiPieces(220);
+        const startTime = performance.now();
+
+        function update(time) {
+          const elapsed = time - startTime;
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+          confettiPieces.forEach((p) => {
+            p.y += p.speedY;
+            p.x += p.speedX;
+            p.rotation += p.rotationSpeed;
+
+            if (p.y > confettiCanvas.height) {
+              p.y = -10;
+              p.x = Math.random() * confettiCanvas.width;
+            }
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          });
+
+          if (elapsed < duration) {
+            confettiAnimationId = requestAnimationFrame(update);
+          } else {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          }
+        }
+
+        confettiAnimationId = requestAnimationFrame(update);
+      }
+
+      getInsightsBtn.addEventListener("click", () => {
+        startConfetti();
+      });
+    });
+  </script>
+</body>
+</html>
